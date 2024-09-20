@@ -91,6 +91,7 @@ export function AnimalCardComponent() {
         </CardContent>
         <CardFooter className="pb-6 pt-2">
           <Button 
+            variant="ghost"
             onClick={isPlaying ? stopParade : startParade} 
             className={`w-full ${isPlaying ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-white font-semibold py-3 rounded-full transition-colors duration-300`}
           >
