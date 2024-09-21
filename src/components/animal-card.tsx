@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { PlayIcon, PauseIcon, SkipForwardIcon } from "lucide-react"
+import ml5 from 'ml5'
 
 const animals = [
   { name: "Löwe", image: "/img/loewe.jpg", sound: "/sounds/bbc-lion.mp3"},
@@ -18,6 +19,9 @@ export function AnimalCardComponent() {
   const [isPlaying, setIsPlaying] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const [imageAnalysis, setImageAnalysis] = useState<string>('')
+  const imageRef = useRef<HTMLImageElement>(null)
+  const classifierRef = useRef<any>(null)
 
   const getRandomAnimal = useCallback(() => {
     let newIndex;
@@ -34,9 +38,9 @@ export function AnimalCardComponent() {
         console.error("Fehler beim Abspielen des Sounds");
       });
       
-      // Setze einen Timer, um nach 4 Sekunden zum nächsten Tier zu wechseln
+      // Setze einen Timer, um nach 8 Sekunden zum nächsten Tier zu wechseln
       if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(nextAnimal, 4000);
+      timerRef.current = setTimeout(nextAnimal, 8000);
     }
   }, [currentAnimal]);
 
@@ -72,7 +76,7 @@ export function AnimalCardComponent() {
         }
         
         if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(nextAnimal, 4000);
+        timerRef.current = setTimeout(nextAnimal, 8000);
       };
 
       playAndSetTimer();
@@ -107,6 +111,76 @@ export function AnimalCardComponent() {
     }
   }
 
+  useEffect(() => {
+    let isMounted = true;
+
+    if (!classifierRef.current) {
+      ml5.imageClassifier('MobileNet').then((classifier:any) => {
+        if (isMounted) {
+          classifierRef.current = classifier;
+          console.log('Klassifizierer geladen');
+          // Führe die erste Analyse durch, wenn das Bild bereits geladen ist
+          if (imageRef.current) {
+            analyzeImage(imageRef.current);
+          }
+        }
+      });
+    }
+
+    return () => {
+      isMounted = false;
+      // Cleanup-Funktion, falls nötig
+    };
+  }, []);
+
+  useEffect(() => {
+    if (imageRef.current) {
+      const img = imageRef.current;
+      if (img.complete) {
+        analyzeImage(img);
+      } else {
+        img.onload = () => analyzeImage(img);
+      }
+    }
+  }, [currentAnimal]);
+
+  const analyzeImage = useCallback((img: HTMLImageElement) => {
+    if (classifierRef.current) {
+      classifierRef.current.classify(img, (error: any, results: any) => {
+        if (error) {
+          console.error("Fehler bei der Bildklassifizierung:", error);
+          setImageAnalysis("Analyse fehlgeschlagen");
+        } else if (results && results.length > 0) {
+          console.log("Klassifizierungsergebnisse:", results);
+          const fullLabel = results[0].label;
+          const animalName = fullLabel.split(',')[0].trim(); // Extrahiert den Namen vor dem Komma
+          setImageAnalysis(`${animalName} (${(results[0].confidence * 100).toFixed(2)}% Sicherheit)`);
+        } else {
+          setImageAnalysis("Keine Ergebnisse gefunden");
+        }
+      });
+    } else {
+      console.log("Klassifizierer noch nicht geladen");
+      setImageAnalysis("Klassifizierer wird geladen...");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (imageRef.current) {
+      const img = imageRef.current;
+      if (img.complete) {
+        if (img.naturalWidth === 0) {
+          setImageAnalysis("Bild konnte nicht geladen werden");
+        } else {
+          analyzeImage(img);
+        }
+      } else {
+        img.onload = () => analyzeImage(img);
+        img.onerror = () => setImageAnalysis("Bild konnte nicht geladen werden");
+      }
+    }
+  }, [currentAnimal, analyzeImage]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-repeat" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2V6h4V4H6zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}} 
     >
@@ -114,11 +188,14 @@ export function AnimalCardComponent() {
         <CardContent className="p-6">
           <div className="flex flex-col items-center space-y-4">
             <img
+              ref={imageRef}
               src={animals[currentAnimal].image}
               alt={animals[currentAnimal].name}
               className="rounded-lg shadow-md w-full h-48 object-cover"
+              crossOrigin="anonymous"
             />
             <h2 className="text-3xl font-bold text-primary">{animals[currentAnimal].name}</h2>
+            <p className="text-sm text-gray-600">{imageAnalysis}</p>
           </div>
         </CardContent>
         <CardFooter className="pb-6 pt-2">
