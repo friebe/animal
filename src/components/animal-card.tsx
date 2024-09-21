@@ -6,52 +6,85 @@ import { Button } from "@/components/ui/button"
 import { PlayIcon, PauseIcon, SkipForwardIcon } from "lucide-react"
 
 const animals = [
-  { name: "Löwe", image: "/img/loewe.jpg", sound: "/sounds/bbc-lion.mp3" },
-  { name: "Elefant", image: "/placeholder.svg?height=200&width=300", sound: "trumpet.mp3" },
-  { name: "Affe", image: "/placeholder.svg?height=200&width=300", sound: "chatter.mp3" },
-  { name: "Hund", image: "/placeholder.svg?height=200&width=300", sound: "bark.mp3" },
-  { name: "Katze", image: "/placeholder.svg?height=200&width=300", sound: "meow.mp3" },
+  { name: "Löwe", image: "/img/loewe.jpg", sound: "/sounds/bbc-lion.mp3"},
+  { name: "Elefant", image: "/img/elefant.jpg", sound: "/sounds/bbc-elefant.mp3"},
+  { name: "Affe", image: "/img/affe.jpg", sound: "chatter.mp3" },
+  { name: "Hund", image: "/img/hund.jpg", sound: "bark.mp3" },
+  { name: "Katze", image: "/img/katze.jpg", sound: "meow.mp3" },
 ]
 
 export function AnimalCardComponent() {
-  const [currentAnimal, setCurrentAnimal] = useState(0)
+  const [currentAnimal, setCurrentAnimal] = useState(() => Math.floor(Math.random() * animals.length))
   const [isPlaying, setIsPlaying] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
+
+  const getRandomAnimal = useCallback(() => {
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * animals.length);
+    } while (newIndex === currentAnimal && animals.length > 1);
+    return newIndex;
+  }, [currentAnimal]);
 
   const playSound = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.src = animals[currentAnimal].sound;
       audioRef.current.play().catch(() => {
-        // Wenn der Sound nicht geladen werden kann, warte 1 Sekunde und gehe zum nächsten Tier
-        setTimeout(() => {
-          //setIsPlaying(false);
-          setCurrentAnimal((prev) => (prev + 1) % animals.length);
-        }, 1000);
+        console.error("Fehler beim Abspielen des Sounds");
       });
-      setIsPlaying(true);
+      
+      // Setze einen Timer, um nach 4 Sekunden zum nächsten Tier zu wechseln
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(nextAnimal, 4000);
     }
   }, [currentAnimal]);
 
+  const nextAnimal = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setCurrentAnimal(getRandomAnimal());
+  }, [getRandomAnimal]);
+
   useEffect(() => {
     audioRef.current = new Audio();
-    audioRef.current.onended = () => {
-      setIsPlaying(false);
-      setCurrentAnimal((prev) => (prev + 1) % animals.length);
-    };
 
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current.onended = null;
+      }
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
       }
     };
   }, []);
 
   useEffect(() => {
     if (isPlaying) {
-      playSound();
+      const playAndSetTimer = () => {
+        if (audioRef.current) {
+          audioRef.current.src = animals[currentAnimal].sound;
+          audioRef.current.play().catch(() => {
+            console.error("Fehler beim Abspielen des Sounds");
+          });
+        }
+        
+        if (timerRef.current) clearTimeout(timerRef.current);
+        timerRef.current = setTimeout(nextAnimal, 4000);
+      };
+
+      playAndSetTimer();
+    } else {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
     }
-  }, [currentAnimal, isPlaying, playSound]);
+  }, [currentAnimal, isPlaying, nextAnimal]);
 
   const startParade = () => {
     setIsPlaying(true);
@@ -59,24 +92,23 @@ export function AnimalCardComponent() {
 
   const stopParade = () => {
     setIsPlaying(false);
-    setCurrentAnimal(0);
     if (audioRef.current) {
       audioRef.current.pause();
+    }
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
     }
   }
 
   const skipToNextAnimal = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
-    setCurrentAnimal((prev) => (prev + 1) % animals.length);
+    nextAnimal();
     if (isPlaying) {
       setTimeout(playSound, 0);
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-repeat" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2H36zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}} 
+    <div className="min-h-screen flex items-center justify-center bg-repeat" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2V6h4V4H6zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}} 
     >
       <Card className="w-[350px] bg-gradient-to-b from-blue-50 to-green-50 shadow-xl">
         <CardContent className="p-6">
@@ -109,7 +141,7 @@ export function AnimalCardComponent() {
           </Button>
           <Button
             onClick={skipToNextAnimal}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-full transition-colors duration-300"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 ml-2 px-4 rounded-full transition-colors duration-300"
           >
             <SkipForwardIcon className="h-5 w-5" />
           </Button>
