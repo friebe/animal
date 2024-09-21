@@ -154,7 +154,7 @@ export function AnimalCardComponent() {
           console.log("Klassifizierungsergebnisse:", results);
           const fullLabel = results[0].label;
           const animalName = fullLabel.split(',')[0].trim(); // Extrahiert den Namen vor dem Komma
-          setImageAnalysis(`${animalName} (${(results[0].confidence * 100).toFixed(2)}% Sicherheit)`);
+          setImageAnalysis(`${animalName}`);
         } else {
           setImageAnalysis("Keine Ergebnisse gefunden");
         }
@@ -184,7 +184,7 @@ export function AnimalCardComponent() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-repeat" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2V6h4V4H6zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}} 
     >
-      <Card className="w-[350px] bg-gradient-to-b from-blue-50 to-green-50 shadow-xl">
+      <Card className="items-start w-[350px] bg-gradient-to-b from-blue-50 to-green-50 shadow-xl">
         <CardContent className="p-6">
           <div className="flex flex-col items-center space-y-4">
             <img
@@ -194,13 +194,11 @@ export function AnimalCardComponent() {
               className="rounded-lg shadow-md w-full h-48 object-cover"
               crossOrigin="anonymous"
             />
-            <h2 className="text-3xl font-bold text-primary">{animals[currentAnimal].name}</h2>
-            <p className="text-sm text-gray-600">{imageAnalysis}</p>
+            <h2 className="text-2xl font-bold text-primary">{imageAnalysis}</h2>
           </div>
         </CardContent>
         <CardFooter className="pb-6 pt-2">
           <Button 
-            variant="ghost"
             onClick={isPlaying ? stopParade : startParade} 
             className={`w-full ${isPlaying ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-white font-semibold py-3 rounded-full transition-colors duration-300`}
           >
