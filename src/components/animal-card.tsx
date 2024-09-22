@@ -203,16 +203,16 @@ export function AnimalCardComponent() {
   }, [currentAnimal, analyzeImage]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-repeat" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2V6h4V4H6zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}} 
+    <div className="" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2V6h4V4H6zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}} 
     >
       <Card className="items-start w-[350px] bg-gradient-to-b from-blue-50 to-green-50 shadow-xl">
-        <CardContent className="p-6">
+        <CardContent className="p-0 pb-6">
           <div className="flex flex-col items-center space-y-4">
             <img
               ref={imageRef}
               src={animals[currentAnimal].image}
               alt={animals[currentAnimal].name}
-              className="rounded-lg shadow-md w-full h-48 object-cover"
+              className="rounded-lg shadow-md w-full h-60 object-cover"
               crossOrigin="anonymous"
             />
             <h2 className="text-2xl font-bold text-primary">
