@@ -40,7 +40,7 @@ export function AnimalCardComponent() {
       
       // Setze einen Timer, um nach 8 Sekunden zum nächsten Tier zu wechseln
       if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(nextAnimal, 8000);
+      timerRef.current = setTimeout(nextAnimal, 5000);
     }
   }, [currentAnimal]);
 
@@ -67,16 +67,22 @@ export function AnimalCardComponent() {
 
   useEffect(() => {
     if (isPlaying) {
+      // Hier wird die Bildanalyse durchgeführt, bevor der Ton abgespielt wird
+      if (imageRef.current) {
+        analyzeImage(imageRef.current);
+      }
+
       const playAndSetTimer = () => {
         if (audioRef.current) {
           audioRef.current.src = animals[currentAnimal].sound;
-          audioRef.current.play().catch(() => {
-            console.error("Fehler beim Abspielen des Sounds");
-          });
+          //todo der ton muss auch beim ersten tier abgespielt werden
+          //audioRef.current.play().catch(() => {
+          //  console.error("Fehler beim Abspielen des Sounds");
+          //});
         }
         
         if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(nextAnimal, 8000);
+        timerRef.current = setTimeout(nextAnimal, 5000);
       };
 
       playAndSetTimer();
@@ -92,7 +98,11 @@ export function AnimalCardComponent() {
 
   const startParade = () => {
     setIsPlaying(true);
-  }
+    // Analysiere das Bild, wenn die Parade gestartet wird
+    if (imageRef.current) {
+      analyzeImage(imageRef.current);
+    }
+  };
 
   const stopParade = () => {
     setIsPlaying(false);
@@ -145,6 +155,11 @@ export function AnimalCardComponent() {
   }, [currentAnimal]);
 
   const analyzeImage = useCallback((img: HTMLImageElement) => {
+    if (img.naturalWidth === 0) {
+      // Wenn das Bild nicht geladen wurde, führen wir keine Analyse durch
+      return;
+    }
+
     if (classifierRef.current) {
       classifierRef.current.classify(img, (error: any, results: any) => {
         if (error) {
@@ -152,18 +167,24 @@ export function AnimalCardComponent() {
           setImageAnalysis("Analyse fehlgeschlagen");
         } else if (results && results.length > 0) {
           console.log("Klassifizierungsergebnisse:", results);
-          const fullLabel = results[0].label;
-          const animalName = fullLabel.split(',')[0].trim(); // Extrahiert den Namen vor dem Komma
-          setImageAnalysis(`${animalName}`);
+          const { label, confidence } = results[0];
+          if (confidence > 0.5) {
+            const animalName = label.split(',')[0].trim();
+            setImageAnalysis(`${animalName}`);
+            // Spiele den Sound des Tieres ab, wenn die Konfidenz > 0.5 ist
+            playSound();
+          } else {
+            setImageAnalysis("Welches Tier siehst du ?");
+          }
         } else {
           setImageAnalysis("Keine Ergebnisse gefunden");
         }
       });
     } else {
-      console.log("Klassifizierer noch nicht geladen");
-      setImageAnalysis("Klassifizierer wird geladen...");
+      console.log("Bild konnte nicht analysiert werden");
+      setImageAnalysis("Bild wird analysiert...");
     }
-  }, []);
+  }, [playSound]);
 
   useEffect(() => {
     if (imageRef.current) {
@@ -194,7 +215,9 @@ export function AnimalCardComponent() {
               className="rounded-lg shadow-md w-full h-48 object-cover"
               crossOrigin="anonymous"
             />
-            <h2 className="text-2xl font-bold text-primary">{imageAnalysis}</h2>
+            <h2 className="text-2xl font-bold text-primary">
+              {imageAnalysis}
+            </h2>
           </div>
         </CardContent>
         <CardFooter className="pb-6 pt-2">
