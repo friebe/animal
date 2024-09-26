@@ -1,0 +1,231 @@
+[
+  {
+    "name": "Australisches Froschmaul",
+    "sound": "/public/sounds/AustralianFrogmouth.mp3",
+    "image": ""
+  },
+  {
+    "name": "Bluthund",
+    "sound": "/public/sounds/Bluthund_jault.mp3",
+    "image": ""
+  },
+  {
+    "name": "Elefant",
+    "sound": "/public/sounds/Elefant.mp3",
+    "image": ""
+  },
+  {
+    "name": "Ente",
+    "sound": "/public/sounds/Ente_quackt.mp3",
+    "image": ""
+  },
+  {
+    "name": "Gans",
+    "sound": "/public/sounds/Gaense.mp3",
+    "image": ""
+  },
+  {
+    "name": "Gorilla",
+    "sound": "/public/sounds/Gorilla.mp3",
+    "image": ""
+  },
+  {
+    "name": "Kapuzineraffe",
+    "sound": "/public/sounds/Kapuzineraffe.mp3",
+    "image": ""
+  },
+  {
+    "name": "Katze",
+    "sound": "/public/sounds/Katze_miaut.mp3",
+    "image": ""
+  },
+  {
+    "name": "Leopard",
+    "sound": "/public/sounds/Leopard.mp3",
+    "image": ""
+  },
+  {
+    "name": "Löwe",
+    "sound": "/public/sounds/Lowe.mp3"
+  },
+  {
+    "name": "Pferd",
+    "sound": "/public/sounds/Pony.mp3"
+  },
+  {
+    "name": "Puma",
+    "sound": "/public/sounds/Puma.mp3"
+  },
+  {
+    "name": "Papagaei",
+    "sound": "/public/sounds/RedParot.mp3"
+  },
+  {
+    "name": "Rhinozerus",
+    "sound": "/public/sounds/Rhinozerus.mp3"
+  },
+  {
+    "name": "Kuh",
+    "sound": "/public/sounds/Rinder_muh.mp3"
+  },
+  {
+    "name": "Schimpanse",
+    "sound": "/public/sounds/Schimpanse.mp3"
+  },
+  {
+    "name": "Diademhäher",
+    "sound": "/public/sounds/Steller_Jay.mp3"
+  },
+  {
+    "name": "Tiger",
+    "sound": "/public/sounds/Tiger.mp3"
+  },
+  {
+    "name": "Ziege",
+    "sound": "/public/sounds/Ziege.mp3"
+  },
+  {
+    "name": "Krokodil",
+    "sound": "/public/sounds/alligator.mp3"
+  },
+  {
+    "name": "Amazon macaw",
+    "sound": "/public/sounds/amazonmacaw.mp3"
+  },
+  {
+    "name": "Biene",
+    "sound": "/public/sounds/bee.mp3"
+  },
+  {
+    "name": "Bison",
+    "sound": "/public/sounds/bison.mp3"
+  },
+  {
+    "name": "Kobra",
+    "sound": "/public/sounds/cobra.mp3"
+  },
+  {
+    "name": "Koyote",
+    "sound": "/public/sounds/coyotes.mp3"
+  },
+  {
+    "name": "Heuschreken",
+    "sound": "/public/sounds/crickets.mp3"
+  },
+  {
+    "name": "Krähe",
+    "sound": "/public/sounds/crow.mp3"
+  },
+  {
+    "name": "Elch",
+    "sound": "/public/sounds/elk.mp3"
+  },
+  {
+    "name": "Fink",
+    "sound": "/public/sounds/finch.mp3"
+  },
+  {
+    "name": "Frosh",
+    "sound": "/public/sounds/frogs.mp3"
+  },
+  {
+    "name": "Geier",
+    "sound": "/public/sounds/geier.mp3"
+  },
+  {
+    "name": "Hahn",
+    "sound": "/public/sounds/hahn_kikeriki.mp3"
+  },
+  {
+    "name": "Huhn",
+    "sound": "/public/sounds/huehner.mp3"
+  },
+  {
+    "name": "Kanarienvogel",
+    "sound": "/public/sounds/kanarienvogel.mp3"
+  },
+  {
+    "name": "Kiebitz",
+    "sound": "/public/sounds/lapwing.mp3"
+  },
+  {
+    "name": "Drossel",
+    "sound": "/public/sounds/mockingbird.mp3"
+  },
+  {
+    "name": "Moewe",
+    "sound": "/public/sounds/moewe.mp3"
+  },
+  {
+    "name": "Mosquito",
+    "sound": "/public/sounds/mosquito.mp3"
+  },
+  {
+    "name": "Nachtigal",
+    "sound": "/public/sounds/nachtigal.mp3"
+  },
+  {
+    "name": "Ochse",
+    "sound": "/public/sounds/ochse.mp3"
+  },
+  {
+    "name": "Eule",
+    "sound": "/public/sounds/owl.mp3"
+  },
+  {
+    "name": "Pfau",
+    "sound": "/public/sounds/peacock.mp3"
+  },
+  {
+    "name": "Pferd",
+    "sound": "/public/sounds/pferd_whinnert.mp3"
+  },
+  {
+    "name": "Tauben",
+    "sound": "/public/sounds/pigeons.mp3"
+  },
+  {
+    "name": "Rabe",
+    "sound": "/public/sounds/rabe.mp3"
+  },
+  {
+    "name": "Klapperschlange",
+    "sound": "/public/sounds/rattlesnake.mp3"
+  },
+  {
+    "name": "Rotlori",
+    "sound": "/public/sounds/rotlori.mp3"
+  },
+  {
+    "name": "Schaf",
+    "sound": "/public/sounds/schaf.mp3"
+  },
+  {
+    "name": "Schwalbe",
+    "sound": "/public/sounds/schwalbe.mp3"
+  },
+  {
+    "name": "Schwein",
+    "sound": "/public/sounds/schwein.mp3"
+  },
+  {
+    "name": "Spatz",
+    "sound": "/public/sounds/spatz.mp3"
+  },
+  {
+    "name": "Specht",
+    "sound": "/public/sounds/specht.mp3"
+  },
+  {
+    "name": "Truthahn",
+    "sound": "/public/sounds/truthahn.mp3"
+  },
+  {
+    "name": "Wolf",
+    "sound": "/public/sounds/wolf.mp3"
+  },
+  {
+    "name": "Kronenwaldsänger",
+    "sound": "/public/sounds/yellowrumpedwarbler.mp3"
+  }
+]

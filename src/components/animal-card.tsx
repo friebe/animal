@@ -3,15 +3,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { PlayIcon, PauseIcon, SkipForwardIcon } from "lucide-react"
-
-const animals = [
-  { name: "Löwe", image: "/img/loewe.jpg", sound: "/sounds/bbc-lion.mp3"},
-  { name: "Elefant", image: "/img/elefant.jpg", sound: "/sounds/bbc-elefant.mp3"},
-  { name: "Affe", image: "/img/affe.jpg", sound: "chatter.mp3" },
-  { name: "Hund", image: "/img/hund.jpg", sound: "bark.mp3" },
-  { name: "Katze", image: "/img/katze.jpg", sound: "meow.mp3" },
-]
+import { PlayIcon, PauseIcon, SkipForwardIcon } from "lucide-react";
+import animals from "@/animals.json";
 
 export function AnimalCardComponent() {
   const [currentAnimal, setCurrentAnimal] = useState(() => Math.floor(Math.random() * animals.length))
@@ -72,7 +65,7 @@ export function AnimalCardComponent() {
         }
         
         if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(nextAnimal, 4000);
+        timerRef.current = setTimeout(nextAnimal, 8000);
       };
 
       playAndSetTimer();
