@@ -42,5 +42,4 @@ npm start
 
 ## Media Usage
 - **Images**: All animal images used in the app are sourced from [Unsplash](https://unsplash.com/). The images comply with the Unsplash License.
-- **Sounds**: Animal sounds are sourced from the [BBC Sound Effects](https://sound-effects.bbcrewind.co) Archive. Please refer to the BBC Sound Effects License for more information on usage.
-
+- **Sounds**: Animal sounds are downloaded from the [Free Animal Sounds Website](https://freeanimalsounds.org/) 

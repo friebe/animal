@@ -1,11 +1,6 @@
 [
   {
-    "name": "Australisches Froschmaul",
-    "sound": "/sounds/AustralianFrogmouth.mp3",
-    "image": ""
-  },
-  {
-    "name": "Bluthund",
+    "name": "Hund",
     "sound": "/sounds/Bluthund_jault.mp3",
     "image": ""
   },
@@ -125,7 +120,7 @@
     "image": ""
   },
   {
-    "name": "Heuschreken",
+    "name": "Heuschreke",
     "sound": "/sounds/crickets.mp3",
     "image": ""
   },
@@ -145,7 +140,7 @@
     "image": ""
   },
   {
-    "name": "Frosh",
+    "name": "Frosch",
     "sound": "/sounds/frogs.mp3",
     "image": ""
   },
@@ -180,7 +175,7 @@
     "image": ""
   },
   {
-    "name": "Moewe",
+    "name": "Möwe",
     "sound": "/sounds/moewe.mp3",
     "image": ""
   },

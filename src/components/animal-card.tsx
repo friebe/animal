@@ -4,10 +4,11 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { PlayIcon, PauseIcon, SkipForwardIcon } from "lucide-react";
-import animals from "@/animals.json";
+import animals from "@/animalsForTest.json";
 
 export function AnimalCardComponent() {
   const [currentAnimal, setCurrentAnimal] = useState(() => Math.floor(Math.random() * animals.length))
+  const [currentAnimalImage, setCurrentAnimalImage] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
@@ -100,6 +101,31 @@ export function AnimalCardComponent() {
     }
   }
 
+  const fetchAnimalImage = async (animalId: string) => {
+    try {
+      const response = await fetch(`https://api.unsplash.com/photos/${animalId}?client_id=${import.meta.env.VITE_UNSPLASH_ACCESSKEY}`);
+      if (!response.ok) {
+        throw new Error("Fehler beim Abrufen des Bildes");
+      }
+      const data = await response.json();
+      return data.urls.regular; 
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const updateAnimalImage = async () => {
+      const imageUrl = await fetchAnimalImage(animals[currentAnimal].image);
+      if (imageUrl) {
+        setCurrentAnimalImage(imageUrl);
+      }
+    };
+
+    updateAnimalImage();
+  }, [currentAnimal]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-repeat" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2V6h4V4H6zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}} 
     >
@@ -107,9 +133,9 @@ export function AnimalCardComponent() {
         <CardContent className="p-6">
           <div className="flex flex-col items-center space-y-4">
             <img
-              src={animals[currentAnimal].image}
+              src={currentAnimalImage || animals[currentAnimal].image}
               alt={animals[currentAnimal].name}
-              className="rounded-lg shadow-md w-full h-48 object-cover"
+              className="rounded-lg shadow-md w-full h-80 object-cover"
             />
             <h2 className="text-3xl font-bold text-primary">{animals[currentAnimal].name}</h2>
           </div>
