@@ -21,19 +21,6 @@ export function AnimalCardComponent() {
     return newIndex;
   }, [currentAnimal]);
 
-  const playSound = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.src = animals[currentAnimal].sound;
-      audioRef.current.play().catch(() => {
-        console.error("Fehler beim Abspielen des Sounds");
-      });
-      
-      // Setze einen Timer, um nach 4 Sekunden zum nächsten Tier zu wechseln
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(nextAnimal, 4000);
-    }
-  }, [currentAnimal]);
-
   const nextAnimal = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause();
@@ -45,9 +32,19 @@ export function AnimalCardComponent() {
   useEffect(() => {
     audioRef.current = new Audio();
 
+    // Füge einen Event-Listener hinzu, um das nächste Tier zu wechseln, wenn der Sound endet
+    const handleAudioEnded = () => {
+      nextAnimal();
+    };
+
+    if (audioRef.current) {
+      audioRef.current.addEventListener('ended', handleAudioEnded);
+    }
+
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current.removeEventListener('ended', handleAudioEnded); // Entferne den Event-Listener
       }
       if (timerRef.current) {
         clearTimeout(timerRef.current);
@@ -96,9 +93,6 @@ export function AnimalCardComponent() {
 
   const skipToNextAnimal = () => {
     nextAnimal();
-    if (isPlaying) {
-      setTimeout(playSound, 0);
-    }
   }
 
   const fetchAnimalImage = async (animalId: string) => {

@@ -8,5 +8,35 @@
       "name": "Hund",
       "sound": "/sounds/Bluthund_jault.mp3",
       "image": "a-golden-retriever-sitting-on-a-sandy-beach-FTbC150wV8Q"
+    },
+    {
+      "name": "Elefant",
+      "sound": "/sounds/Elefant.mp3",
+      "image": "elephants-at-a-waterhole-e11qQdvYksw"
+    },
+    {
+      "name": "Ente",
+      "sound": "/sounds/Ente_quackt.mp3",
+      "image": "ein-paar-enten-die-neben-einem-gewasser-stehen-9fww5E--GM4"
+    },
+    {
+      "name": "Gans",
+      "sound": "/sounds/Gaense.mp3",
+      "image": "eine-gans-geht-auf-einem-feld-3Lbm44jPtrk"
+    },
+    {
+      "name": "Gorilla",
+      "sound": "/sounds/Gorilla.mp3",
+      "image": "schwarzer-gorilla-liegt-tagsuber-auf-grunem-gras-6t3FOFus3tU"
+    },
+    {
+      "name": "Kapuzineraffe",
+      "sound": "/sounds/Kapuzineraffe.mp3",
+      "image": "/schwarz-weisser-affe-auf-ast-ultRa5xhMjQ"
+    },
+    {
+      "name": "Katze",
+      "sound": "/sounds/Katze_miaut.mp3",
+      "image": "fokusfotografie-der-braunen-katze-mit-langem-fell-a7bdqjeG6M4"
     }
   ]
